@@ -56,18 +56,19 @@ def config_init():
             elif a == "2":
                 print("请确保输入的正确性，若输入错误，请在ddns.cfg中修改\n")
                 t_url = str(input("输入您的域名[例如abc.com]:"))
-                t_key = str(input("输入您的KEY[格式为:XXXXXXXX:XXXXX]:"))
+                t_key = str(input("输入您的Key:"))
+                t_secret = str(input("输入您的Secret:"))
                 t_ttl = str(input("输入时间间隔,若输入值为0,则不进行循环:"))
                 while 1:
                     b = str(input("确认输入无误(确定并继续/保存并退出/取消并重输)？Y/N/C:"))
                     if b == "Y" or a == "y":
                         config_set("user","domain",t_url)
-                        config_set("user","key",t_key)
+                        config_set("user","key",t_key+":"+t_secret)
                         config_set("user","ttl",t_ttl)
                         pass
                     elif b == "n" or a== "N":     
                         config_set("user","domain",t_url)
-                        config_set("user","key",t_key)
+                        config_set("user","key",t_key+":"+t_secret)
                         config_set("user","ttl",t_ttl)
                         exit("退出后请编辑ddns.cfg文件")
                     elif b == "c" or a == "C":
