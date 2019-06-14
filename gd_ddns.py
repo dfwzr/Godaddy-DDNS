@@ -10,18 +10,18 @@ import configparser
 #DNS解析记录的IP地址读入内存，避免反复请求API
 global log_ip
 def log_NS(text):
-    fo = open("ddns.log","a")
+    fo = open("gd_ddns.log","a")
     fo.write("##"+time.asctime(time.localtime(time.time()))+"##\n")
     fo.write("NEW IP:"+text+"\n")
     fo.close()
 #初始化配置文件，将DNS解析的数据存入本地。
 def config_init(): 
     cf = configparser.ConfigParser()
-    cf.read("ddns.cfg")
+    cf.read("gd_ddns.cfg")
     if "user" in cf :
 #初始化配置文件
         if config_get("user","key") == "XXXXXXXXXXXXXXX:XXXXXXXXX" :
-            exit("请编辑默认配置文件ddns.cfg中的地址与key后再试")
+            exit("请编辑默认配置文件gd_ddns.cfg中的地址与key后再试")
         """
         暂时不用该功能
         key = ['data','name','ttl','type']
@@ -50,11 +50,11 @@ def config_init():
                 config_set("user","domain","exampel.com")
                 config_set("user","key","XXXXXXXXXXXXXXX:XXXXXXXXX")
                 config_set("user","ttl","0")
-                print("已创建ddns.cfg，请设置[user]中domain与key的值。\n")
+                print("已创建gd_ddns.cfg，请设置[user]中domain与key的值。\n")
                 input("按任意建退出")
                 exit()
             elif a == "2":
-                print("请确保输入的正确性，若输入错误，请在ddns.cfg中修改\n")
+                print("请确保输入的正确性，若输入错误，请在gd_ddns.cfg中修改\n")
                 t_url = str(input("输入您的域名[例如abc.com]:"))
                 t_key = str(input("输入您的KEY[格式为:XXXXXXXX:XXXXX]:"))
                 t_ttl = str(input("输入时间间隔,若输入值为0,则不进行循环:"))
@@ -69,7 +69,7 @@ def config_init():
                         config_set("user","domain",t_url)
                         config_set("user","key",t_key)
                         config_set("user","ttl",t_ttl)
-                        exit("退出后请编辑ddns.cfg文件")
+                        exit("退出后请编辑gd_ddns.cfg文件")
                     elif b == "c" or a == "C":
                         config_init()
 
@@ -78,20 +78,20 @@ def config_init():
 #读配置文件
 def config_get(head,key):
     cf = configparser.ConfigParser()
-    cf.read("ddns.cfg")
+    cf.read("gd_ddns.cfg")
     has_head = head in cf
     return cf[head][key]
 #写入配置文件
 def config_set(head,key,value):
     cf = configparser.ConfigParser()
-    cf.read("ddns.cfg")
+    cf.read("gd_ddns.cfg")
     has_head = head in cf
     if has_head:
         cf.set(head,key,value)
     else:
         cf.add_section(head)
         cf.set(head,key,value)
-    cf.write(open("ddns.cfg","w"))
+    cf.write(open("gd_ddns.cfg","w"))
 #通过API抓取域名解析配置
 def get_NS():
     head = {}
